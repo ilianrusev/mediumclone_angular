@@ -1,12 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { register } from '../../store/actions';
 import { RegisterRequestInterface } from '../../types/registerRequest.interface';
 import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthStateInterface } from '../../types/authsState.interface';
 import { selectIsSubmitting } from '../../store/reducers';
 
 @Component({
@@ -24,10 +23,7 @@ export class RegisterComponent {
   });
   isSubmitting$: Observable<boolean> = this.store.select(selectIsSubmitting);
 
-  constructor(
-    private fb: FormBuilder,
-    private store: Store<{ auth: AuthStateInterface }>,
-  ) {}
+  constructor(private fb: FormBuilder, private store: Store) {}
 
   onSubmit() {
     console.log('form', this.form.getRawValue());
