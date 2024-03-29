@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { BannerComponent } from 'src/app/shared/components/banner/banner.component';
 import { FeedComponent } from 'src/app/shared/components/feed/feed.component';
 import { FeedTogglerComponent } from 'src/app/shared/components/feedToggler/feedToggler.component';
@@ -6,7 +7,7 @@ import { PopularTagsComponent } from 'src/app/shared/components/popularTags/popu
 
 @Component({
   selector: 'mc-global-feed',
-  templateUrl: './globalFeed.component.html',
+  templateUrl: './tagFeed.component.html',
   standalone: true,
   imports: [
     FeedComponent,
@@ -15,6 +16,16 @@ import { PopularTagsComponent } from 'src/app/shared/components/popularTags/popu
     FeedTogglerComponent,
   ],
 })
-export class GlobalFeedComponent {
-  apiUrl = '/articles';
+export class TagFeedComponent implements OnInit {
+  apiUrl: string = '';
+  tagName: string = '';
+
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.tagName = params['slug'];
+      this.apiUrl = `/articles?tag=${this.tagName}`;
+    });
+  }
 }
