@@ -20,7 +20,7 @@ export const getCurrentUserEffect = createEffect(
         const token = persistanceService.get('accessToken');
 
         if (!token) {
-          return of(authActions.getCurrentUserFailure);
+          return of(authActions.getCurrentUserFailure());
         }
         return authService.getCurretUser().pipe(
           map((currentUser: CurrentUserInterface) => {
