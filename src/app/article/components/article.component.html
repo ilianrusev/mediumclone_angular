@@ -29,17 +29,17 @@
           </span>
         </div>
       </div>
-      <div class="container page">
-        <mc-loading *ngIf="data.isLoading"></mc-loading>
-        <mc-error-message *ngIf="data.error"></mc-error-message>
+    </div>
+    <div class="container page">
+      <mc-loading *ngIf="data.isLoading"></mc-loading>
+      <mc-error-message *ngIf="data.error"></mc-error-message>
 
-        <div class="row article-content" *ngIf="data.article">
-          <div class="col-xs-12">
-            <div>
-              <p>{{ data.article.body }}</p>
-            </div>
-            <mc-tag-list [tags]="data.article.tagList"></mc-tag-list>
+      <div class="row article-content" *ngIf="data.article">
+        <div class="col-xs-12">
+          <div>
+            <p>{{ data.article.body }}</p>
           </div>
+          <mc-tag-list [tags]="data.article.tagList"></mc-tag-list>
         </div>
       </div>
     </div></div
