@@ -16,7 +16,7 @@ const createArticleFeature = createFeature({
       ...state,
       isSubmitting: true,
     })),
-    on(createArticleActions.createArticleSuccess, (state, action) => ({
+    on(createArticleActions.createArticleSuccess, (state) => ({
       ...state,
       isSubmitting: false,
     })),
