@@ -19,6 +19,7 @@ import { selectCurrentUser } from 'src/app/auth/store/reducers';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { UserProfileInterface } from '../types/userProfile.interface';
 import { FeedComponent } from 'src/app/shared/components/feed/feed.component';
+import { UserProfileService } from '../services/userProfile.service';
 
 @Component({
   selector: 'mc-user-profile',
@@ -58,12 +59,20 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.slug = params['slug'];
+      console.log(this.slug);
+
       this.fetchUserProfile();
     });
   }
 
   fetchUserProfile(): void {
     this.store.dispatch(userProfileActions.getUserProfile({ slug: this.slug }));
+  }
+
+  followUnfollowUser(action: 'follow' | 'unfollow') {
+    this.store.dispatch(
+      userProfileActions.followUserProfile({ action: action, slug: this.slug }),
+    );
   }
 
   getApiUrl(): string {

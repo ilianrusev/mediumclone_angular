@@ -26,6 +26,19 @@ const userProfileFeature = createFeature({
       ...state,
       isLoading: false,
     })),
+    on(userProfileActions.followUserProfile, (state) => ({
+      ...state,
+      isLoading: true,
+    })),
+    on(userProfileActions.followUserProfileSuccess, (state, action) => ({
+      ...state,
+      isLoading: false,
+      data: action.userProfile,
+    })),
+    on(userProfileActions.followUserProfileFailure, (state) => ({
+      ...state,
+      isLoading: false,
+    })),
     on(routerNavigationAction, () => initialState),
   ),
 });

@@ -12,6 +12,8 @@
                 *ngIf="!data.userProfile.following && !data.isCurrentUserProfile"
                 class="btn btn-sm action-btn btn-outline-secondary"
                 type="button"
+                [disabled]="data.isLoading"
+                (click)="followUnfollowUser('follow')"
               >
                 <i class="ion-plus-round"></i>&nbsp; Follow
                 {{ data.userProfile.username }}
@@ -21,6 +23,8 @@
                 *ngIf="data.userProfile.following && !data.isCurrentUserProfile"
                 class="btn btn-sm action-btn btn-outline-secondary"
                 type="button"
+                [disabled]="data.isLoading"
+                (click)="followUnfollowUser('unfollow')"
               >
                 <i class="ion-minus-round"></i>&nbsp;Unfollow
                 {{ data.userProfile.username }}

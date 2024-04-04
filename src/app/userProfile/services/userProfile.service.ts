@@ -16,4 +16,21 @@ export class UserProfileService {
       .get<GetUserProfileResponseInterface>(url)
       .pipe(map((res) => res.profile));
   }
+
+  followUnfollowUser(
+    action: 'follow' | 'unfollow',
+    slug: string,
+  ): Observable<UserProfileInterface> {
+    const url = `${environment.apiUrl}/profiles/${slug}/follow`;
+
+    if (action === 'follow') {
+      return this.http
+        .post<GetUserProfileResponseInterface>(url, {})
+        .pipe(map((res) => res.profile));
+    } else {
+      return this.http
+        .delete<GetUserProfileResponseInterface>(url)
+        .pipe(map((res) => res.profile));
+    }
+  }
 }

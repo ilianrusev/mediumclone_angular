@@ -26,3 +26,25 @@ export const getUserProfileEffect = createEffect(
   },
   { functional: true },
 );
+
+export const FollowUserProfileEffect = createEffect(
+  (
+    actions$ = inject(Actions),
+    userProfileService = inject(UserProfileService),
+  ) => {
+    return actions$.pipe(
+      ofType(userProfileActions.followUserProfile),
+      switchMap(({ action, slug }) => {
+        return userProfileService.followUnfollowUser(action, slug).pipe(
+          map((userProfile: UserProfileInterface) => {
+            return userProfileActions.followUserProfileSuccess({ userProfile });
+          }),
+          catchError(() => {
+            return of(userProfileActions.followUserProfileFailure());
+          }),
+        );
+      }),
+    );
+  },
+  { functional: true },
+);
