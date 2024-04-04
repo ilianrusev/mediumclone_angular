@@ -59,7 +59,6 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.slug = params['slug'];
-      console.log(this.slug);
 
       this.fetchUserProfile();
     });
