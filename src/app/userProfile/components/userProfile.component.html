@@ -8,7 +8,23 @@
             <h4>{{ data.userProfile.username }}</h4>
             <p>{{ data.userProfile.bio }}</p>
             <div>
-              FOLLOW USER BUTTON
+              <button
+                *ngIf="!data.userProfile.following && !data.isCurrentUserProfile"
+                class="btn btn-sm action-btn btn-outline-secondary"
+                type="button"
+              >
+                <i class="ion-plus-round"></i>&nbsp; Follow
+                {{ data.userProfile.username }}
+              </button>
+
+              <button
+                *ngIf="data.userProfile.following && !data.isCurrentUserProfile"
+                class="btn btn-sm action-btn btn-outline-secondary"
+                type="button"
+              >
+                <i class="ion-minus-round"></i>&nbsp;Unfollow
+                {{ data.userProfile.username }}
+              </button>
               <a
                 *ngIf="data.isCurrentUserProfile"
                 class="btn btn-sm btn-outline-secondary action-btn"
