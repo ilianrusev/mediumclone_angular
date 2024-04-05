@@ -27,6 +27,7 @@ const editArticleFeature = createFeature({
       ...state,
       isLoading: false,
     })),
+
     on(editArticleActions.editArticle, (state) => ({
       ...state,
       isSubmitting: true,
@@ -40,6 +41,7 @@ const editArticleFeature = createFeature({
       isSubmitting: false,
       validationErrors: action.errors,
     })),
+
     on(routerNavigationAction, () => initialState),
   ),
 });

@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AuthService } from '../services/auth.service';
 import { authActions } from './actions';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { PersistanceService } from 'src/app/shared/services/persistence.service';
@@ -48,12 +48,10 @@ export const registerEffect = createEffect(
         return authService.register(request).pipe(
           map((currentUser: CurrentUserInterface) => {
             persistanceService.set('accessToken', currentUser.token);
-            return authActions.registerSuccess({ currentUser });
+            return authActions.registerResult({ currentUser });
           }),
           catchError((error: HttpErrorResponse) => {
-            return of(
-              authActions.registerFailure({ errors: error.error.errors }),
-            );
+            return of(authActions.registerResult({ errors: error.error.errors }));
           }),
         );
       }),
@@ -65,7 +63,8 @@ export const registerEffect = createEffect(
 export const redirectAfterRegisterEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
-      ofType(authActions.registerSuccess),
+      ofType(authActions.registerResult),
+      filter(({ currentUser, errors }) => currentUser !== undefined && !errors), // Only proceed when there is an article and no errors
       tap(() => {
         router.navigateByUrl('/');
       }),
@@ -89,10 +88,10 @@ export const loginEffect = createEffect(
         return authService.login(request).pipe(
           map((currentUser: CurrentUserInterface) => {
             persistanceService.set('accessToken', currentUser.token);
-            return authActions.loginSuccess({ currentUser });
+            return authActions.loginResult({ currentUser });
           }),
           catchError((error: HttpErrorResponse) => {
-            return of(authActions.loginFailure({ errors: error.error.errors }));
+            return of(authActions.loginResult({ errors: error.error.errors }));
           }),
         );
       }),
@@ -104,7 +103,8 @@ export const loginEffect = createEffect(
 export const redirectAfterLoginEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
-      ofType(authActions.loginSuccess),
+      ofType(authActions.loginResult),
+      filter(({ currentUser, errors }) => currentUser !== undefined && !errors), // Only proceed when there is an article and no errors
       tap(() => {
         router.navigateByUrl('/');
       }),

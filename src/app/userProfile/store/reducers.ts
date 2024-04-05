@@ -26,6 +26,7 @@ const userProfileFeature = createFeature({
       ...state,
       isLoading: false,
     })),
+
     on(userProfileActions.followUserProfile, (state) => ({
       ...state,
       isLoading: true,
@@ -39,6 +40,7 @@ const userProfileFeature = createFeature({
       ...state,
       isLoading: false,
     })),
+
     on(routerNavigationAction, () => initialState),
   ),
 });

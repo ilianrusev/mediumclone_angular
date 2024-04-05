@@ -28,45 +28,40 @@ const authFeature = createFeature({
       isLoading: false,
       currentUser: null,
     })),
+
     on(authActions.updateCurrentUserSuccess, (state, action) => ({
       ...state,
       currentUser: action.currentUser,
     })),
+
     on(authActions.register, (state) => ({
       ...state,
       isSubmitting: true,
       validationErrors: null,
     })),
-    on(authActions.registerSuccess, (state, action) => ({
+    on(authActions.registerResult, (state, action) => ({
       ...state,
       isSubmitting: false,
-      currentUser: action.currentUser,
+      validationErrors: action.errors !== undefined ? action.errors : null,
     })),
-    on(authActions.registerFailure, (state, action) => ({
-      ...state,
-      isSubmitting: false,
-      validationErrors: action.errors,
-    })),
+
     on(authActions.login, (state) => ({
       ...state,
       isSubmitting: true,
       validationErrors: null,
     })),
-    on(authActions.loginSuccess, (state, action) => ({
+    on(authActions.loginResult, (state, action) => ({
       ...state,
       isSubmitting: false,
-      currentUser: action.currentUser,
+      validationErrors: action.errors !== undefined ? action.errors : null,
     })),
-    on(authActions.loginFailure, (state, action) => ({
-      ...state,
-      isSubmitting: false,
-      validationErrors: action.errors,
-    })),
+
     on(authActions.logout, (state) => ({
       ...state,
       ...initialState,
       currentUser: null,
     })),
+
     on(routerNavigationAction, (state) => ({ ...state, validationErrors: null })),
   ),
 });
