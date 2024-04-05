@@ -42,6 +42,7 @@ const authFeature = createFeature({
     on(authActions.registerResult, (state, action) => ({
       ...state,
       isSubmitting: false,
+      currentUser: action.currentUser !== undefined ? action.currentUser : null,
       validationErrors: action.errors !== undefined ? action.errors : null,
     })),
 
@@ -53,6 +54,7 @@ const authFeature = createFeature({
     on(authActions.loginResult, (state, action) => ({
       ...state,
       isSubmitting: false,
+      currentUser: action.currentUser !== undefined ? action.currentUser : null,
       validationErrors: action.errors !== undefined ? action.errors : null,
     })),
 
