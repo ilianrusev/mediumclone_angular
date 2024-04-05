@@ -16,14 +16,10 @@ const createArticleFeature = createFeature({
       ...state,
       isSubmitting: true,
     })),
-    on(createArticleActions.createArticleSuccess, (state) => ({
+    on(createArticleActions.createArticleResult, (state, action) => ({
       ...state,
       isSubmitting: false,
-    })),
-    on(createArticleActions.createArticleFailure, (state, action) => ({
-      ...state,
-      isSubmitting: false,
-      validationErrors: action.errors,
+      validationErrors: action.errors !== undefined ? action.errors : null,
     })),
     on(routerNavigationAction, () => initialState),
   ),

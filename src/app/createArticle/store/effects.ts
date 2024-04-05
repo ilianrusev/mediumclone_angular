@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, filter, map, of, switchMap, tap } from 'rxjs';
 import { createArticleActions } from './actions';
 import { ArticleInterface } from 'src/app/shared/types/article.interface';
 import { Router } from '@angular/router';
@@ -17,11 +17,11 @@ export const createArticleEffect = createEffect(
       switchMap(({ request }) => {
         return createArticleService.createArticle(request).pipe(
           map((article: ArticleInterface) => {
-            return createArticleActions.createArticleSuccess({ article });
+            return createArticleActions.createArticleResult({ article });
           }),
           catchError((error: HttpErrorResponse) => {
             return of(
-              createArticleActions.createArticleFailure({
+              createArticleActions.createArticleResult({
                 errors: error.error.errors,
               }),
             );
@@ -36,9 +36,10 @@ export const createArticleEffect = createEffect(
 export const redirectAfterCreateEffect = createEffect(
   (actions$ = inject(Actions), router = inject(Router)) => {
     return actions$.pipe(
-      ofType(createArticleActions.createArticleSuccess),
+      ofType(createArticleActions.createArticleResult),
+      filter(({ article, errors }) => article !== undefined && !errors), // Only proceed when there is an article and no errors
       tap(({ article }) => {
-        router.navigate(['/articles', article.slug]);
+        router.navigate(['/articles', article!.slug]);
       }),
     );
   },

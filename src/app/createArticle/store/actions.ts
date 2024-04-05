@@ -7,7 +7,9 @@ export const createArticleActions = createActionGroup({
   source: 'create article',
   events: {
     'Create article': props<{ request: ArticleRequestInterface }>(),
-    'Create article Success': props<{ article: ArticleInterface }>(),
-    'Create article Failure': props<{ errors: BackendErrorsInterface }>(),
+    'Create article Result': props<{
+      article?: ArticleInterface;
+      errors?: BackendErrorsInterface;
+    }>(),
   },
 });
